@@ -1,9 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from 'typeorm';
-
-import Image from './Image';
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn} from "typeorm";
+import Image from './Image'
 
 @Entity('orphanages')
-export default class Orphanages {
+export default class Orphanage {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -11,17 +10,17 @@ export default class Orphanages {
   name: string;
 
   @Column()
-  latitude: string;
+  latitude: number;
 
   @Column()
-  longitude: string;
+  longitude: number;
 
   @Column()
   about: string;
 
   @Column()
   instructions: string;
-  
+
   @Column()
   opening_hours: string;
 
@@ -32,5 +31,5 @@ export default class Orphanages {
     cascade: ['insert', 'update']
   })
   @JoinColumn({ name: 'orphanage_id' })
-  images: Image[];
+  images: Image[]
 }
