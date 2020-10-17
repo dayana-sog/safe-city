@@ -8,9 +8,10 @@ import api from '../services/api';
 
 import 'leaflet/dist/leaflet.css';
 
+import heart from '../images/heart.svg';
 import mapMarketImg from '../images/local.svg';
 
-import '../styles/pages/orphanages-map.css';
+import '../styles/pages/safe-city-map.css';
 
 const mapIcon = Leaflet.icon({
   iconUrl: mapMarketImg,
@@ -20,19 +21,19 @@ const mapIcon = Leaflet.icon({
   popupAnchor: [170, 2]
 });
 
-interface Orphanages {
+interface SafeCity {
   id: number;
   latitude: number;
   longitude: number;
   name: string;
 }
 
-function OrphanagesMap() {
-  const [orphanages, setOrphanages] = useState<Orphanages[]>([]);
+function SafeCityMap() {
+  const [pointsCity, setPointsCity] = useState<SafeCity[]>([]);
 
   useEffect(() => {
-    api.get('orphanages').then(response => {
-      setOrphanages(response.data);
+    api.get('cities').then(response => {
+      setPointsCity(response.data);
     })
   }, []);
 
@@ -40,10 +41,13 @@ function OrphanagesMap() {
     <div id="page-map">
       <aside>
         <header>
-          <img src={mapMarketImg} alt="Happy"/>
+          <div className="logo">
+            <img src={heart} alt="Happy"/>
+            <span>Safe-City</span>
+          </div>
 
-          <h2>Escolha um orfanato no mapa</h2>
-          <p>Muitas crianças estão esperando a sua visita :)</p>
+          <h2>Marque no mapa o local do ocorrido</h2>
+          <p>Dessa forma podemos evitar que aconteça com outras pessoas </p>
         </header>
 
         <footer>
@@ -66,11 +70,11 @@ function OrphanagesMap() {
           url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
         />
         
-        {orphanages.map(orphanage => (
+        {pointsCity.map(pointCity => (
           <Marker 
-          key={orphanage.id}
+          key={pointCity.id}
           icon={mapIcon}
-          position={[ orphanage.latitude, orphanage.longitude]}
+          position={[ pointCity.latitude, pointCity.longitude]}
         >
           <Popup
             closeButton={false}
@@ -78,8 +82,8 @@ function OrphanagesMap() {
             maxWidth={240}
             className="map-popup"
           >
-            {orphanage.name}
-            <Link to={`/orphanage/${orphanage.id}`}>
+            {pointCity.name}
+            <Link to={`/cities/${pointCity.id}`}>
               <FiArrowRight size={20} color="#fff" />
             </Link>
           </Popup>
@@ -87,11 +91,11 @@ function OrphanagesMap() {
         ))}
       </Map>
 
-      <Link to="/orphanage/create" className="create-orphanage">
+      <Link to="/cities/create" className="create-safe-city-point">
         <FiPlus size={32} color="#fff" />
       </Link>
     </div>
   )
 }
 
-export default OrphanagesMap;
+export default SafeCityMap;

@@ -4,12 +4,15 @@ import L, { LeafletMouseEvent } from 'leaflet';
 import { FiPlus } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 
+import { toast } from 'react-toastify';
+
 import mapMarkerImg from '../images/local.svg';
 
 import SideBar from '../components/SideBar';
 
-import '../styles/pages/create-orphanage.css';
+import '../styles/pages/create-safe-city-point.css';
 import api from "../services/api";
+
 
 const happyMapIcon = L.icon({
   iconUrl: mapMarkerImg,
@@ -26,9 +29,9 @@ export default function CreateOrphanage() {
 
   const [name, setName] = useState('');
   const [about, setAbout] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [opening_hours, setOpeningHours] = useState('');
-  const [open_on_weekends, setOpenOnWeekends] = useState(true);
+  const [phone, setPhone] = useState('');
+  const [when_hours, setWhen_hours] = useState('');
+  const [reported_crime, setReportedCrime] = useState(true);
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
@@ -49,28 +52,32 @@ export default function CreateOrphanage() {
     const data = new FormData();
     data.append('name', name);
     data.append('about', about);
+    data.append('phone', phone);
+    data.append('reported_crime', String(reported_crime));
     data.append('latitude', String(latitude));
     data.append('longitude', String(longitude));
-    data.append('instructions', instructions);
-    data.append('opening_hours', opening_hours);
-    data.append('open_on_weekends', String(open_on_weekends));
+
+    data.append('when_hours', when_hours);
 
     images.forEach(image => {
       data.append('images', image);
     });
 
-    await api.post('orphanages', data);
+    await api.post('cities', data);
 
-    alert('Cadastro realizado com sucesso');
+    toast.info('Cadastro realizado com sucesso', {
+      className: 'toast-ok',
+    });
 
     history.push('/app');
+
   }, [
     about, 
     name, 
-    instructions, 
-    opening_hours, 
-    position, 
-    open_on_weekends,
+    phone,
+    reported_crime,
+    when_hours, 
+    position,
     images,
     history
   ]);
@@ -91,16 +98,16 @@ export default function CreateOrphanage() {
   }, []);
 
   return (
-    <div id="page-create-orphanage">
+    <div id="page-create-safe-city">
       <SideBar />
 
       <main>
         <form 
           onSubmit={handleSubmit}
-          className="create-orphanage-form"
+          className="create-safe-city-form"
         >
           <fieldset>
-            <legend>Dados</legend>
+            <legend>Dados do ocorrido</legend>
 
             <Map 
               center={[38.7074727,-9.1382657]} 
@@ -109,7 +116,7 @@ export default function CreateOrphanage() {
               onclick={e => handleMapClick(e)}
             >
               <TileLayer 
-                url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
               />
 
               { position.latitude !== 0 && ( 
@@ -122,7 +129,7 @@ export default function CreateOrphanage() {
             </Map>
 
             <div className="input-block">
-              <label htmlFor="name">Nome</label>
+              <label htmlFor="name">Seu nome</label>
               <input 
                 id="name" 
                 value={name} 
@@ -131,7 +138,7 @@ export default function CreateOrphanage() {
             </div>
 
             <div className="input-block">
-              <label htmlFor="about">Sobre <span>Máximo de 300 caracteres</span></label>
+              <label htmlFor="about">O que aconteceu ?<span>Máximo de 300 caracteres</span></label>
               <textarea 
                 id="name" 
                 maxLength={300} 
@@ -141,7 +148,7 @@ export default function CreateOrphanage() {
             </div>
 
             <div className="input-block">
-              <label htmlFor="images">Fotos</label>
+              <label htmlFor="images">Fotos do local</label>
 
               <div className="images-container">
                 {previewImages.map(imgs => {
@@ -162,43 +169,43 @@ export default function CreateOrphanage() {
                 onChange={handleSelectImages}
               />
             </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Visitação</legend>
 
             <div className="input-block">
-              <label htmlFor="instructions">Instruções</label>
-              <textarea 
-                id="instructions" 
-                value={instructions} 
-                onChange={e => setInstructions(e.target.value)} 
-              />
-            </div>
-
-            <div className="input-block">
-              <label htmlFor="opening_hours">Horário de funcionamento </label>
+              <label htmlFor="opening_hours">Horário do ocorrido:</label>
               <input 
                 id="opening_hours" 
-                value={opening_hours} 
-                onChange={e => setOpeningHours(e.target.value)}/>
+                value={when_hours} 
+                onChange={e => setWhen_hours(e.target.value)}/>
             </div>
 
             <div className="input-block">
-              <label htmlFor="open_on_weekends">Atende fim de semana</label>
+              <label htmlFor="phone">Informe seu contato:</label>
+              <input 
+                id="opening_hours" 
+                value={phone} 
+                placeholder="(351) 999-999-999" 
+                className="masked" 
+                pattern="/(\(?\d{3}\)?\s)?(\d{3,5}\-\d{3,5}\-\d{3,5})/g" 
+                data-valid-example="(351) 999-999-999"
+                onChange={e => setPhone(e.target.value)
+                }/>
+            </div>
+
+            <div className="input-block">
+              <label htmlFor="open_on_weekends">Foi reportado a polícia:</label>
 
               <div className="button-select">
                 <button 
                   type="button" 
-                  className={open_on_weekends ? 'active' : ''}
-                  onClick={() => setOpenOnWeekends(true)}
+                  className={reported_crime ? 'active' : ''}
+                  onClick={() => setReportedCrime(true)}
                 >
                   Sim
                 </button>
                 <button 
                   type="button"
-                  className={!open_on_weekends ? 'active' : ''}
-                  onClick={() => setOpenOnWeekends(false)}
+                  className={!reported_crime ? 'active' : ''}
+                  onClick={() => setReportedCrime(false)}
                 >
                   Não
                 </button>
@@ -207,7 +214,7 @@ export default function CreateOrphanage() {
           </fieldset>
 
           <button className="confirm-button" type="submit">
-            Confirmar
+            Confirmar informações
           </button>
         </form>
       </main>

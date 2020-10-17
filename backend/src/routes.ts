@@ -3,13 +3,13 @@ import multer from 'multer';
 
 import uploadConfig from './config/upload';
 
-import OrphanagesController from './controllers/OrphanagesControllers';
+import SafeCityController from './controllers/SafeCityControllers';
 
 const routes = Router();
 const upload = multer(uploadConfig);
 
-routes.post('/orphanages', upload.array('images'), OrphanagesController.create);
-routes.get('/orphanages', OrphanagesController.index);
-routes.get('/orphanages/:id', OrphanagesController.show);
+routes.post('/cities', upload.array('images'), SafeCityController.create);
+routes.get('/cities', SafeCityController.index);
+routes.get('/cities/:id', SafeCityController.show);
 
 export default routes;

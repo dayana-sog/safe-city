@@ -2,18 +2,18 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Landing from './screens/Landing';
-import OrphanagesMap from './screens/OrphanagesMap';
-import Orphanage from './screens/Orphanage';
-import CreateOrphanage from './screens/CreateOrphanage';
+import SafeCityMap from './screens/SafeCityMap';
+import SafeCityPoint from './screens/SafeCityPoint';
+import CreateSafeCityPoint from './screens/CreateSafeCityPoint';
 
 function Routes() {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={Landing} />
-        <Route path="/app" component={OrphanagesMap} />
-        <Route path="/orphanage/create" component={CreateOrphanage} />
-        <Route path="/orphanage/:id" component={Orphanage} />
+        <Route path="/app" component={SafeCityMap} />
+        <Route path="/cities/create" component={CreateSafeCityPoint} />
+        <Route path="/cities/:id" component={SafeCityPoint} />
       </Switch>
     </BrowserRouter>
   );

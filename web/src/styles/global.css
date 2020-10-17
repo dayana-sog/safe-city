@@ -12,3 +12,10 @@ body {
 body, input, button, textarea {
   font: 600 18px Nunito, sans-serif;
 }
+
+.toast-erro {
+  background-color: #36CF82;
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: bold;
+}

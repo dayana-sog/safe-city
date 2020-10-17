@@ -4,7 +4,7 @@ export class createOrphanages1602609261000 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: 'orphanages',
+            name: 'safe_city',
             columns: [
                 {
                     name: 'id',
@@ -35,17 +35,16 @@ export class createOrphanages1602609261000 implements MigrationInterface {
                     type: 'text',
                 },
                 {
-                    name: 'instructions',
-                    type: 'text',
-                },
-                {
-                    name: 'opening_hours',
+                    name: 'when_hours',
                     type: 'varchar'
                 },
                 {
-                    name: 'open_on_weekends',
-                    type: 'boolean',
-                    default: false
+                    name: 'reported_crime',
+                    type: 'boolean'
+                },
+                {
+                    name: 'phone',
+                    type: 'varchar'
                 }
             ]
         }))
@@ -53,7 +52,8 @@ export class createOrphanages1602609261000 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('orphanages');
+        await queryRunner.dropTable('safe_city');
     }
 
 }
+
