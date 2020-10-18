@@ -68,11 +68,6 @@ Instale as dependências:
 ```sh
 $ yarn
 ```
-Inicie as migrations:
-```sh
-$ yarn typeorm migration:create -n CreateSafeCities 
-$ yarn typeorm migration:create -n CreateImages 
-```
 Run as migrations:
 ```sh
 $ yarn typeorm migration:run
