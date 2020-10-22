@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiPlus, FiArrowRight } from 'react-icons/fi';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 import Leaflet from 'leaflet';
 
 import api from '../services/api';
@@ -70,25 +71,27 @@ function SafeCityMap() {
           url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
         />
         
-        {pointsCity.map(pointCity => (
-          <Marker 
-          key={pointCity.id}
-          icon={mapIcon}
-          position={[ pointCity.latitude, pointCity.longitude]}
-        >
-          <Popup
-            closeButton={false}
-            minWidth={240}
-            maxWidth={240}
-            className="map-popup"
+        <MarkerClusterGroup>
+          {pointsCity.map(pointCity => (
+            <Marker 
+            key={pointCity.id}
+            icon={mapIcon}
+            position={[ pointCity.latitude, pointCity.longitude]}
           >
-            {pointCity.name}
-            <Link to={`/cities/${pointCity.id}`}>
-              <FiArrowRight size={20} color="#fff" />
-            </Link>
-          </Popup>
-        </Marker>
-        ))}
+            <Popup
+              closeButton={false}
+              minWidth={240}
+              maxWidth={240}
+              className="map-popup"
+            >
+              {pointCity.name}
+              <Link to={`/cities/${pointCity.id}`}>
+                <FiArrowRight size={20} color="#fff" />
+              </Link>
+            </Popup>
+          </Marker>
+          ))}
+        </MarkerClusterGroup>
       </Map>
 
       <Link to="/cities/create" className="create-safe-city-point">

@@ -19,3 +19,8 @@ body, input, button, textarea {
   color: #ffffff;
   font-weight: bold;
 }
+
+.marker-cluster-custom {
+  background: #B82E3E;
+  color: #fff;
+}
