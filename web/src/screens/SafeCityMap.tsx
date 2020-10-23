@@ -13,6 +13,7 @@ import heart from '../images/heart.svg';
 import mapMarketImg from '../images/local.svg';
 
 import '../styles/pages/safe-city-map.css';
+import L from 'leaflet';
 
 const mapIcon = Leaflet.icon({
   iconUrl: mapMarketImg,
@@ -37,6 +38,14 @@ function SafeCityMap() {
       setPointsCity(response.data);
     })
   }, []);
+
+  const createClusterCustomIcon = function (cluster: any) {
+    return L.divIcon({
+      html: `<span>${cluster.getChildCount()}</span>`,
+      className: 'marker-cluster-custom',
+      iconSize: L.point(50, 50, true),
+    });
+  }
 
   return (
     <div id="page-map">
@@ -71,7 +80,7 @@ function SafeCityMap() {
           url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
         />
         
-        <MarkerClusterGroup>
+        <MarkerClusterGroup iconCreateFunction={createClusterCustomIcon}>
           {pointsCity.map(pointCity => (
             <Marker 
             key={pointCity.id}

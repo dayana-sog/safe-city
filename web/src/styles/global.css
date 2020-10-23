@@ -21,6 +21,14 @@ body, input, button, textarea {
 }
 
 .marker-cluster-custom {
-  background: #B82E3E;
+  border: none;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #b82e3ec2;
+  font-size: 16px;
   color: #fff;
 }
