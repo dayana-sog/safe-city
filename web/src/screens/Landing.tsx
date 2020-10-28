@@ -25,7 +25,7 @@ function Landing() {
             <span>Portugal</span>
           </div>
 
-          <Link to="/app" className="enter-app">
+          <Link to="/app" data-testid="enter-map" className="enter-app">
             <FiArrowRight size={26} color="#fff" />
           </Link>
         </main>

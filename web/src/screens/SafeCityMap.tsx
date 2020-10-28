@@ -103,7 +103,7 @@ function SafeCityMap() {
         </MarkerClusterGroup>
       </Map>
 
-      <Link to="/cities/create" className="create-safe-city-point">
+      <Link to="/cities/create" data-testid="create-safe-city-link" className="create-safe-city-point">
         <FiPlus size={32} color="#fff" />
       </Link>
     </div>
