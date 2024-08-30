@@ -9,9 +9,6 @@ Devido questões burocráticas muitas pessoas desistem de fazer o boletim de oco
 Com isso, o serviço vai se transformando em um mapa de calor que mostra localidades que você pode evitar. Dessa forma, é possível planejar rotas alternativas (especialmente durante a noite) que ignorem tais lugares.
 
 
-Aplicação tem como intuito por em prática os estudos da Next-Level-Week, ministrada por [Diego Fernandes](https://github.com/diego3g) da [Rocketseat](https://github.com/Rocketseat). 
-Criei minha aplicação baseada na [Happy](https://github.com/rocketseat-education/nlw-03-omnistack).
-
 
 
 ---
